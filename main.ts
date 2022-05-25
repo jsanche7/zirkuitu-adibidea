@@ -1,27 +1,40 @@
 DFRobotMaqueenPlus.I2CInit()
+let _1_atala = 1
+let _2_atala = 0
 basic.forever(function () {
-    if (DFRobotMaqueenPlus.ultraSonic(PIN.P1, PIN.P2) > 30) {
-        DFRobotMaqueenPlus.mototRun(Motors.ALL, Dir.CW, 40)
-    } else if (DFRobotMaqueenPlus.ultraSonic(PIN.P1, PIN.P2) > 15) {
-        DFRobotMaqueenPlus.mototRun(Motors.ALL, Dir.CW, 30)
-    } else if (DFRobotMaqueenPlus.ultraSonic(PIN.P1, PIN.P2) > 8) {
-        DFRobotMaqueenPlus.mototRun(Motors.ALL, Dir.CW, 25)
-    } else {
-        DFRobotMaqueenPlus.mototRun(Motors.ALL, Dir.CW, 0)
-        basic.showIcon(IconNames.Heart)
+    if (DFRobotMaqueenPlus.readPatrol(Patrol.R3) == 1) {
+        _1_atala = 0
+        _2_atala = 1
     }
 })
 basic.forever(function () {
-    if (DFRobotMaqueenPlus.readPatrol(Patrol.L1) == 1 && DFRobotMaqueenPlus.readPatrol(Patrol.R1) == 1) {
-        DFRobotMaqueenPlus.mototRun(Motors.ALL, Dir.CW, 30)
-    } else {
-        if (DFRobotMaqueenPlus.readPatrol(Patrol.L1) == 0 && DFRobotMaqueenPlus.readPatrol(Patrol.R1) == 1) {
-            DFRobotMaqueenPlus.mototRun(Motors.M1, Dir.CW, 160)
-            DFRobotMaqueenPlus.mototRun(Motors.M2, Dir.CW, 0)
+    if (_2_atala == 1) {
+        basic.showIcon(IconNames.Heart)
+        if (DFRobotMaqueenPlus.ultraSonic(PIN.P1, PIN.P2) > 30) {
+            DFRobotMaqueenPlus.mototRun(Motors.ALL, Dir.CW, 40)
+        } else if (DFRobotMaqueenPlus.ultraSonic(PIN.P1, PIN.P2) > 15) {
+            DFRobotMaqueenPlus.mototRun(Motors.ALL, Dir.CW, 30)
+        } else if (DFRobotMaqueenPlus.ultraSonic(PIN.P1, PIN.P2) > 8) {
+            DFRobotMaqueenPlus.mototRun(Motors.ALL, Dir.CW, 25)
+        } else {
+            DFRobotMaqueenPlus.mototRun(Motors.ALL, Dir.CW, 0)
+            basic.showIcon(IconNames.Heart)
         }
-        if (DFRobotMaqueenPlus.readPatrol(Patrol.L1) == 1 && DFRobotMaqueenPlus.readPatrol(Patrol.R1) == 0) {
-            DFRobotMaqueenPlus.mototRun(Motors.M1, Dir.CW, 0)
-            DFRobotMaqueenPlus.mototRun(Motors.M2, Dir.CW, 160)
+    }
+})
+basic.forever(function () {
+    if (_1_atala == 1) {
+        if (DFRobotMaqueenPlus.readPatrol(Patrol.L1) == 1 && DFRobotMaqueenPlus.readPatrol(Patrol.R1) == 1) {
+            DFRobotMaqueenPlus.mototRun(Motors.ALL, Dir.CW, 30)
+        } else {
+            if (DFRobotMaqueenPlus.readPatrol(Patrol.L1) == 0 && DFRobotMaqueenPlus.readPatrol(Patrol.R1) == 1) {
+                DFRobotMaqueenPlus.mototRun(Motors.M1, Dir.CW, 160)
+                DFRobotMaqueenPlus.mototRun(Motors.M2, Dir.CW, 0)
+            }
+            if (DFRobotMaqueenPlus.readPatrol(Patrol.L1) == 1 && DFRobotMaqueenPlus.readPatrol(Patrol.R1) == 0) {
+                DFRobotMaqueenPlus.mototRun(Motors.M1, Dir.CW, 0)
+                DFRobotMaqueenPlus.mototRun(Motors.M2, Dir.CW, 160)
+            }
         }
     }
 })
